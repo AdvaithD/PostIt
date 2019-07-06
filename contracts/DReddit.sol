@@ -19,31 +19,31 @@ contract DReddit {
        uint indexed postId,
        address owner,
        bytes decription
-   )
+   );
 
    event NewVote(
        uint indexed postId,
        address owner,
        uint8 vote
-   )
+   );
 
-    function createPost(bytes _description) public {
+    function createPost(bytes memory _description) public {
         uint postId = posts.length++;
         posts[postId] = Post({
             creationDate: block.timestamp,
-            description: _descriotion,
-            owner: msg.sender
+            description: _description,
+            owner: msg.sender,
             upvotes: 0,
             downvotes: 0
-        })
-        emit NewPost(postId, msg.sender, _description)
+        });
+        emit NewPost(postId, msg.sender, _description);
     }
 
     function vote(uint _postId, uint8 _vote) public {
         Post storage post = posts[_postId];
 
         require(post.creationDate != 0, "Post does not exist");
-        require(post.voters[msg.sender] == BALLOT.NONE, "You already voted");
+        require(post.voters[msg.sender] == Ballot.NONE, "You already voted");
 
         Ballot ballot = Ballot(_vote);
 
@@ -54,7 +54,7 @@ contract DReddit {
             post.downvotes++;
         }
         post.voters[msg.sender] = ballot;
-        emite NewVote(_postId, msg.sender, _vote);
+        emit NewVote(_postId, msg.sender, _vote);
     }
 
 // Allow for easily checking whether a user can vote or not
