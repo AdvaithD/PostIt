@@ -1,17 +1,51 @@
 import React, { Component } from 'react'
 
 export class CreatePost extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      topic: '',
+      content: '',
+      loading: false
+    }
+  }
+  handleChange (field, event) {
+    this.setState({
+      [field]: event.target.value
+    })
+  }
+  async createPost (event) {
+    event.preventDefault()
+    console.log(this.state)
+    this.setState({ loading: true })
+
+    const ipfsHash = await EmbarkJS.Storage.saveText(JSON.stringify({
+      topic: this.state.topic,
+      content: this.state.content
+    }))
+    console.log('Hash created', ipfsHash)
+
+    this.setState({
+      topic: '',
+      content: '',
+      loading: false
+    })
+  }
+
   render () {
     return (
-      <form>
+      <form onSubmit={e => this.createPost(e)}>
         <div>
           <label>Topic</label>
-          <input type="text" name="topic" />
+          <input type="text" name="topic" value={this.state.topic} onChange={e => this.handleChange('topic', e)} />
         </div>
         <div>
-          <textarea name="content"></textarea>
+          <textarea name="content" value={this.state.content} onChange={e => this.handleChange('content', e)} ></textarea>
         </div>
-        <button>Post</button>
+        <button type="submit">Post</button>
+        {this.state.loading &&
+            <p>Posting...</p>
+        }
       </form>
     )
   }
