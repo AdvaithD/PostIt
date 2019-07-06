@@ -6,8 +6,8 @@ import { App } from './components/App'
 // e.g if you have a contract named SimpleStorage:
 // import SimpleStorage from 'Embark/contracts/SimpleStorage';
 
+// eslint-disable-next-line handle-callback-err
 EmbarkJS.onReady((err) => {
   // You can execute contract calls after the connection
+  render(<App />, document.getElementById('root'))
 })
-
-render(<App />, document.getElementById('root'))
