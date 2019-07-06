@@ -9,6 +9,12 @@ contract DReddit {
     }
 
     Post[] public posts;
+  
+   event NewPost(
+       uint indexed postId,
+       address owner,
+       bytes decription
+   )
 
     function createPost(bytes _description) public {
         uint postId = posts.length++;
@@ -17,5 +23,6 @@ contract DReddit {
             description: _descriotion,
             owner: msg.sender
         })
+        emit NewPost(postId, msg.sender, _description)
     }
 }
