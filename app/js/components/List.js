@@ -8,7 +8,18 @@ export class List extends Component {
       posts: []
     }
   }
+  async componentDidMount () {
+    const totalPosts = await DReddit.methods.numPosts().call()
 
+    let list = []
+
+    for (let i = 0; i < totalPosts; i++) {
+      const post = DReddit.methods.posts(i).call()
+      list.push(post)
+    }
+    // Wait for all promises to get resolved
+    list = await Promise.all(list)
+  }
   render () {
     return (
       <React.Fragemnt>
