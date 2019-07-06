@@ -38,4 +38,22 @@ contract DReddit {
         })
         emit NewPost(postId, msg.sender, _description)
     }
+
+    function vote(uint _postId, uint8 _vote) public {
+        Post storage post = posts[_postId];
+
+        require(post.creationDate != 0, "Post does not exist");
+        require(post.voters[msg.sender] == BALLOT.NONE, "You already voted");
+
+        Ballot ballot = Ballot(_vote);
+
+        if (ballot == Ballot.UPVOTE) {
+            post.upvotes++;
+        }
+        else {
+            post.downvotes++;
+        }
+        post.voters[msg.sender] = ballot;
+        emite NewVote(_postId, msg.sender, _vote);
+    }
 }
