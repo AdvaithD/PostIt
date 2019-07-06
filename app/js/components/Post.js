@@ -23,6 +23,7 @@ export class Post extends Component {
       'yyyy-mm-dd HH:MM:ss'
     )
     return (
+      <React.Fragment>
         <hr />
         <h3>{this.state.topic}</h3>
         <p>{this.state.content}</p>
