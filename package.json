@@ -17,5 +17,9 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0"
   },
-  "gitHead": "21f5367bebe10594ffcc26f3aa4b574b1226472a"
+  "gitHead": "21f5367bebe10594ffcc26f3aa4b574b1226472a",
+  "dependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
 }
