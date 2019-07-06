@@ -18,7 +18,7 @@ contract DReddit {
    event NewPost(
        uint indexed postId,
        address owner,
-       bytes decription
+       bytes description
    );
 
    event NewVote(
