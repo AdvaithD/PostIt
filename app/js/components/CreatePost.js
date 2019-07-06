@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import DReddit from '../../../embarkArtifacts/contracts/DReddit'
 export class CreatePost extends Component {
   constructor (props) {
     super(props)
@@ -16,14 +16,25 @@ export class CreatePost extends Component {
   }
   async createPost (event) {
     event.preventDefault()
-    console.log(this.state)
-    this.setState({ loading: true })
-
     const ipfsHash = await EmbarkJS.Storage.saveText(JSON.stringify({
       topic: this.state.topic,
       content: this.state.content
     }))
     console.log('Hash created', ipfsHash)
+
+    // get accounts
+    const accounts = await web3.eth.getAccounts()
+
+    // create post
+    const createPost = DReddit.methods.createPost(web3.utils.toHex(ipfsHash))
+
+    // Get gas estimate
+    const estimate = await createPost.estimateGas()
+
+    // Send the transaction from the default account
+    await createPost.send({ from: accounts[0], gas: estimate })
+    console.log(this.state)
+    this.setState({ loading: true })
 
     this.setState({
       topic: '',
