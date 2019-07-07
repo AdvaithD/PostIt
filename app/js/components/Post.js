@@ -17,17 +17,20 @@ export class Post extends Component {
     const { topic, content } = JSON.parse(data)
     this.setState({ topic, content })
   }
+  
+  // componentWillUnmount() {
+  //   this._isMounted = false;
+  // }
   render () {
-    const formattedDate = dateformat(
-      new Date(this.props.creationDate * 1000),
-      'yyyy-mm-dd HH:MM:ss'
-    )
+    const formattedDate = dateformat(new Date(this.props.creationDate * 1000),'yyyy-mm-dd')
+    const { owner, creationDate } = this.props
+    const { topic, content } = this.state
     return (
       <React.Fragment>
         <hr />
-        <h3>{this.state.topic}</h3>
-        <p>{this.state.content}</p>
-        <p><small><i>created at {formattedDate} by {this.props.owner}</i></small></p>
+        <h3>{topic ? topic : 'null'}</h3>
+        <p>{content ? content : 'null'}</p>
+        <p><small><i>created at {formattedDate ? formattedDate : 'null'} by {owner ? owner : 'null'}</i></small></p>
         <button>Upvote</button>
         <button>Downvote</button>
       </React.Fragment>
