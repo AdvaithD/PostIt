@@ -33,7 +33,7 @@ export class CreatePost extends Component {
 
     // Send the transaction from the default account
     await createPost.send({ from: accounts[0], gas: estimate })
-    console.log(this.state)
+    await this.props.afterPostHandler()
     this.setState({ loading: true })
 
     this.setState({
